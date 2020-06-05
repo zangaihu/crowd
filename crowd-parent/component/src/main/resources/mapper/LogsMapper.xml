@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.mapper.LogsMapper">
+
+    <resultMap type="com.sh.entity.Logs" id="TLogsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="operation" column="operation" jdbcType="VARCHAR"/>
+        <result property="args" column="args" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="opTime" column="op_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TLogsMap">
+        select
+          id, user_name, description, operation, args, ip, op_time
+        from crowd.t_logs
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TLogsMap">
+        select
+          id, user_name, description, operation, args, ip, op_time
+        from crowd.t_logs
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TLogsMap">
+        select
+          id, user_name, description, operation, args, ip, op_time
+        from crowd.t_logs
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="operation != null and operation != ''">
+                and operation = #{operation}
+            </if>
+            <if test="args != null and args != ''">
+                and args = #{args}
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip = #{ip}
+            </if>
+            <if test="opTime != null">
+                and op_time = #{opTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into crowd.t_logs(user_name, description, operation, args, ip, op_time)
+        values (#{userName}, #{description}, #{operation}, #{args}, #{ip}, #{opTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update crowd.t_logs
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="operation != null and operation != ''">
+                operation = #{operation},
+            </if>
+            <if test="args != null and args != ''">
+                args = #{args},
+            </if>
+            <if test="ip != null and ip != ''">
+                ip = #{ip},
+            </if>
+            <if test="opTime != null">
+                op_time = #{opTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from crowd.t_logs where id = #{id}
+    </delete>
+
+</mapper>

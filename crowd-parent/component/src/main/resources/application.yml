@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/crowd?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:/mapper/*.xml
+
+#logging:
+#  pattern:
+#    console: "%d{yyyy/MM/dd-HH:mm:ss} =========== [%thread] %-5level %logger- %msg%n"
+#logging:
+#  path: classpath:
+#  file:
+
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  helper-dialect: mysql
+#debug: true
